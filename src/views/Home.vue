@@ -1,5 +1,5 @@
 <template>
-  <main v-if="!loading">Show data</main>
+  <main v-if="!loading"><DataTitle :dataDate="dataDate" :text="title" /></main>
   <main
     class="flex flex-column align-center justify-center text-centers"
     v-else
@@ -11,10 +11,13 @@
 
 <script>
 import { DATA_ENDPOINT } from '@/utils/data.js';
+import DataTitle from '@/components/DataTitle';
 
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    DataTitle,
+  },
   data() {
     return {
       loading: true,
