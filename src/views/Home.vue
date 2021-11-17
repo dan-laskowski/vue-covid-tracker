@@ -1,5 +1,9 @@
 <template>
-  <main v-if="!loading"><DataTitle :dataDate="dataDate" :text="title" /></main>
+  <main v-if="!loading">
+    <DataTitle :dataDate="dataDate" :text="title" />
+    <DataBoxes :stats="status" />
+    <CountrySelect :countries="countries" />
+  </main>
   <main
     class="flex flex-column align-center justify-center text-centers"
     v-else
@@ -12,11 +16,15 @@
 <script>
 import { DATA_ENDPOINT } from '@/utils/data.js';
 import DataTitle from '@/components/DataTitle';
+import DataBoxes from '@/components/DataBoxes';
+import CountrySelect from '@/components/CountrySelect';
 
 export default {
   name: 'Home',
   components: {
     DataTitle,
+    DataBoxes,
+    CountrySelect,
   },
   data() {
     return {
@@ -39,7 +47,7 @@ export default {
     const data = await this.fetchCovidData();
 
     this.dataDate = data.Date;
-    this.stats = data.Global;
+    this.status = data.Global;
     this.countries = data.Countries;
     this.loading = false;
   },
