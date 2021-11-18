@@ -1,8 +1,8 @@
 <template>
   <main v-if="!loading">
     <DataTitle :dataDate="dataDate" :text="title" />
-    <DataBoxes :stats="status" />
-    <CountrySelect :countries="countries" />
+    <DataBoxes :stats="stats" />
+    <CountrySelect @get-country="getCountryData" :countries="countries" />
   </main>
   <main
     class="flex flex-column align-center justify-center text-centers"
@@ -31,7 +31,7 @@ export default {
       loading: true,
       title: 'Global',
       dataDate: '',
-      status: {},
+      stats: {},
       countries: [],
       loadingImage: require('../assets/hourglass.gif'),
     };
@@ -42,12 +42,16 @@ export default {
       const data = await res.json();
       return data;
     },
+    getCountryData(country) {
+      this.stats = country;
+      this.title = country.Country;
+    },
   },
   async created() {
     const data = await this.fetchCovidData();
 
     this.dataDate = data.Date;
-    this.status = data.Global;
+    this.stats = data.Global;
     this.countries = data.Countries;
     this.loading = false;
   },
